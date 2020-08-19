@@ -7,7 +7,9 @@ Finished: N/A
 -Monopoly Game
 -Property Card Display
 -Player Profile
--
+-Moving Dice
+-Moving Character Pieces
+-Main Menu
 
 ## Notes
 -N/A
