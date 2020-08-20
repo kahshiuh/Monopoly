@@ -2,13 +2,18 @@ package main;
 
 import java.util.ArrayList;
 
+
 import board.Board;
+import board.BuyableSquare;
+import board.Square;
+import squareTypes.Property;
+import squareTypes.Railroad;
 
 public class Monopoly {
 
     private ArrayList<Player> playerList;
+    private boolean checkedRent;
     private Board board;
-    public int dice1, dice2;
     private Dice d1;
     private Dice d2;
     private int turn;
@@ -18,7 +23,6 @@ public class Monopoly {
         playerList = new ArrayList();
         d1 = new Dice();
         d2 = new Dice();
-        dice1 = dice2 = 1;
         turn = 0;
     }
     public Board getBoard(){
@@ -29,15 +33,15 @@ public class Monopoly {
         playerList.add(new Player(num, obj));
     }
 
-    public int rollDice() {
-        dice1 = d1.roll();
-        dice2 = d2.roll();
-        int i = dice1 + dice2;
-        int newSquare = playerList.get(turn).addSquare(i);
-        if(newSquare > 40){
-            newSquare -= 40;
-        }
-        return i;
+    public int rollDie(int dieNum) {
+    	return dieNum == 1 ? d1.roll() : d2.roll();
+    }
+    public void calculateSquare(int squaresMoved) {
+    	if(playerList.get(turn).getSquare() + squaresMoved > 40) {
+    		playerList.get(turn).setLocation(squaresMoved + playerList.get(turn).getSquare() - 40);
+    	}else {
+    		playerList.get(turn).setLocation(squaresMoved + playerList.get(turn).getSquare());
+    	}
     }
     public void nextTurn(){
         if (turn + 1 >= playerList.size()) {
@@ -45,23 +49,49 @@ public class Monopoly {
         } else {
             turn++;
         }
-
+        checkedRent = false;
+    }
+    public void checkRent(Player p, int curLocation) {
+    	if(checkedRent) return;
+    	switch(board.getSquare(curLocation).toString()) {
+    		case "Property":
+    			Property t = (Property) board.getSquare(curLocation);
+    			if(!t.getOwned()) return;
+    			if(playerList.get(t.getOwner()).checkColor(t.getColor())) {
+    				p.changeBalance(-2*t.getRent());
+    			}else {
+    				p.changeBalance(-t.getRent());
+    			}
+    			break;
+    		case "Railroad":	
+    			Railroad t1 = (Railroad) board.getSquare(curLocation);
+    			
+    			break;
+    		case "Utility":
+    			break;
+    	}
+    	
     }
 
-    public String buyProperty() {
-        int location = playerList.get(turn).getSquare();
-        if (board.getSquare(location).getBuyable()) {
-            playerList.get(turn).addProperty(board.getProperty(playerList.get(turn).getSquare()));
-            playerList.get(turn).changeBalance(-board.getProperty(playerList.get(turn).getSquare()).getPrice());
-            board.getProperty(turn).setOwner(turn);
-            return "Property Bought";
-        }else{
-            return "Property Cannot Be Bought";
-        }
+    public boolean buySquare(Player buyer, BuyableSquare b) {
+    	if(buyer.getBalance() > b.getPrice() && !b.getOwned()) {
+    		b.setBuyable(false);
+    		b.setOwner(buyer.getRollOrder());
+    		buyer.buy(b, b.getPrice());
+    		b.setOwner(buyer.getRollOrder());
+    		return true;
+    	}
+    	return false;
     }
-
-    public void sellProperty() {
-        
+    public boolean sellSquare(Player seller, Square b, Player buyer, int price) {
+    	if(buyer.getBalance() > price) {
+    		seller.sell(b, price);
+    		b.setBuyable(false);
+    		//need to set  owner
+        	buyer.buy(b, price);
+        	return true;
+    	}
+    	return false;
     }
 
 }

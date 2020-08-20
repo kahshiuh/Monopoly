@@ -19,7 +19,6 @@ public class GameMain extends JFrame {
     private int unitSquare = 20;
     private final Monopoly m = new Monopoly();
     private ArrayList<Point> centers = new ArrayList(40);
-    private Hashtable<Integer, ImageIcon> fonts = new Hashtable();
     private Canvas canvas;
     private ImageIcon [] dieSides= new ImageIcon[6];
     private JLabel dL1, dL2;
@@ -59,10 +58,12 @@ public class GameMain extends JFrame {
         diceRollBUT.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-					dL1.setIcon(dieSides[m.getBoard().getDie1().roll()-1]);
-					dL2.setIcon(dieSides[m.getBoard().getDie2().roll()-1]);
+					int d1 = m.rollDie(1), d2 = m.rollDie(2);
+					dL1.setIcon(dieSides[d1-1]);
+					dL2.setIcon(dieSides[d2-1]);
 					dL1.setBounds(unitSquare*23, unitSquare*15, 50, 50);
 					dL2.setBounds(unitSquare*23+50, unitSquare*15, 50, 50);	
+					m.calculateSquare(d1+ d2);
 			}
         	
         });

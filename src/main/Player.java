@@ -1,6 +1,7 @@
 package main;
 
 
+import java.awt.Color;
 import java.util.ArrayList;
 import javax.swing.ImageIcon;
 
@@ -29,11 +30,27 @@ public class Player {
         inJail = false;
         railroadsOwned = houses = hotels = 0;
     }
-    
-    public void sellProperty(BuyableSquare b) {
+    public void buy(Square b, int price) {
+    	ownedProperties.add(b);
+    	bankAccount -= price;
+    }
+    public void sell(Square b, int price) {
     	for(Square s : ownedProperties) {
     		if(s.equals(b)) ownedProperties.remove(s);
+    		bankAccount += price;
     	}
+    }
+    /*
+     * Need to figure out the properties where there is only two of that color
+     */
+    public boolean checkColor(Color pGroup) {
+    	int count = 0;
+    	for(Square s : ownedProperties) {
+    		if(s.toString().equals("Property") && s.getColor().equals(pGroup)) {
+    			count++;
+    		}
+    	}
+    	return !pGroup.equals(new Color(108,69,46)) && !pGroup.equals(new Color(0,70,146)) && count == 3 ? true : count == 2;
     }
     public int getBalance(){
         return bankAccount;
@@ -49,15 +66,6 @@ public class Player {
     }
     public int getHouses(){
         return houses;
-    }
-    public Square removeProperty(int location){
-        int positionInArrayList = 0;
-        for(int i = 0; i < ownedProperties.size(); i++){
-            if(ownedProperties.get(i).getLocation() == location){
-                positionInArrayList = i;
-            }
-        }
-        return ownedProperties.remove(positionInArrayList);
     }
     public void changeBalance(int c){
         bankAccount = bankAccount + c;
@@ -86,15 +94,6 @@ public class Player {
     }
     public boolean getJailed(){
         return inJail;
-    }
-    public void addProperty(Property p){
-        ownedProperties.add(p);
-    }
-    public void addRailroad(Railroad r){
-        ownedProperties.add(r);
-    }
-    public void addUtilities(Utility u){
-        ownedProperties.add(u);
     }
     public void setLocation(int l){
         currentSquare = l;
