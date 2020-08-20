@@ -4,6 +4,7 @@ package main;
 import java.util.ArrayList;
 import javax.swing.ImageIcon;
 
+import board.BuyableSquare;
 import board.Square;
 import squareTypes.Property;
 import squareTypes.Railroad;
@@ -22,11 +23,17 @@ public class Player {
     private ImageIcon piece;
     
     public Player(int r, String o){
-        ownedProperties = new ArrayList();
+        ownedProperties = new ArrayList<Square>();
         rollOrder = r;
         bankAccount = 0;
         inJail = false;
         railroadsOwned = houses = hotels = 0;
+    }
+    
+    public void sellProperty(BuyableSquare b) {
+    	for(Square s : ownedProperties) {
+    		if(s.equals(b)) ownedProperties.remove(s);
+    	}
     }
     public int getBalance(){
         return bankAccount;

@@ -1,10 +1,12 @@
 package main;
 
-
 import java.awt.*;
 import java.awt.event.*;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Hashtable;
+
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import static javax.swing.JFrame.EXIT_ON_CLOSE;
 
@@ -13,15 +15,17 @@ public class GameMain extends JFrame {
     private final int CANV_WIDTH = 1800;
     private final int CANV_HEIGHT = 1200;
     private Color green = new Color(191, 219, 174);
-    private int mouseX;
-    private int mouseY;
+    private int mouseX, mouseY;
     private int unitSquare = 20;
     private final Monopoly m = new Monopoly();
     private ArrayList<Point> centers = new ArrayList(40);
     private Hashtable<Integer, ImageIcon> fonts = new Hashtable();
     private Canvas canvas;
+    private ImageIcon [] dieSides= new ImageIcon[6];
+    private JLabel dL1, dL2;
 
     public GameMain() {
+    	loadImages();
         canvas = new Canvas();
         canvas.setPreferredSize(new Dimension(CANV_WIDTH, CANV_HEIGHT));
         //Gets scrolls
@@ -44,10 +48,43 @@ public class GameMain extends JFrame {
         });
         Container cp = getContentPane();
         cp.add(canvas);
+        Button diceRollBUT = new Button();
+       // diceRollBUT.setPreferredSize(new Dimension(50,50));
+        diceRollBUT.setBounds(unitSquare*60, unitSquare*15, 125, 50);
+        JPanel p = new JPanel();
+        p.setBounds(unitSquare*15, unitSquare*25, 125, 50);
+        canvas.setLayout(null);
+        dL1 = new JLabel();
+        dL2 = new JLabel();
+        diceRollBUT.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+					dL1.setIcon(dieSides[m.getBoard().getDie1().roll()-1]);
+					dL2.setIcon(dieSides[m.getBoard().getDie2().roll()-1]);
+					dL1.setBounds(unitSquare*23, unitSquare*15, 50, 50);
+					dL2.setBounds(unitSquare*23+50, unitSquare*15, 50, 50);	
+			}
+        	
+        });
+        canvas.add(dL1);
+        canvas.add(dL2);
+        canvas.add(diceRollBUT);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         pack();
         setVisible(true);
 
+    }
+    
+    private void loadImages() {
+    	for(int i = 0; i < 6; i++) {
+    		try {
+    			Image image = ImageIO.read(new File("images/dieSides/" + i + ".gif"));
+    			Image image1 = image.getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH);
+                dieSides[i] = new ImageIcon(image1);
+    		}catch(Exception e) {
+    			
+    		}
+    	}
     }
 
     private int squareSearcher(int mouseX, int mouseY) {
@@ -113,6 +150,7 @@ public class GameMain extends JFrame {
         private int loca;
 
         protected void paintComponent(Graphics g2) {
+
             super.paintComponent(g2);
             int square = unitSquare;
             g = (Graphics2D) g2;
@@ -122,6 +160,7 @@ public class GameMain extends JFrame {
             }
             repaint();
         }
+        
 
         public void drawCard(int loc) {
             if (loc >= 0) {

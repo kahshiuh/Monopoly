@@ -15,12 +15,16 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.StringTokenizer;
 
+import main.Dice;
+import main.Player;
+
 public class Board {
 
     private ArrayList<Property> properties;
     private ArrayList<Utility> utilities;
     private ArrayList<Railroad> railroads;
     private ArrayList<Square> board;
+    private Dice d1, d2;
 
     public Board() {
         board = new ArrayList();
@@ -29,9 +33,7 @@ public class Board {
         utilities = new ArrayList();
         loadBoard();
         Collections.sort(board);
-        for(int i = 0; i < board.size(); i++){
-            System.out.println(board.get(i).getLocation());
-        }
+        
     }
     public void loadBoard(){
         loadProperties();
@@ -39,8 +41,13 @@ public class Board {
         loadRailroads();
         loadChanceAndCommunityChest();
         loadOtherSquares();
+        loadDie();
         
     }
+    public void sellProperty(Player p, BuyableSquare b) {
+    	return;
+    }
+    
     public Square getSquare(int location){
         return board.get(location);
     }
@@ -67,6 +74,18 @@ public class Board {
             }
         }
         return null;
+    }
+    
+    public Dice getDie1() {
+    	return d1;
+    }
+    
+    public Dice getDie2() {
+    	return d2;
+    }
+    public void loadDie() {
+    	d1 = new Dice();
+    	d2 = new Dice();
     }
     public void loadOtherSquares(){
         board.add(new Tax(4,false,"Income Tax", 200));
