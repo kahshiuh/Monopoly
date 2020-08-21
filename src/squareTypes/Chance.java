@@ -46,7 +46,7 @@ public class Chance extends FixedSquare{
         deck.add(new ChanceCard(deeds.get(14), 200, false, false,0,0,0,0,0,0));
         deck.add(new ChanceCard(deeds.get(15), 0, true, false,-1,0,0,0,0,0));
     }
-    public void loadDeeds(){
+    private void loadDeeds(){
         try{
            BufferedReader input = new BufferedReader(new FileReader("textDocuments/communityChestCards.txt"));
             String line;
@@ -80,7 +80,7 @@ public class Chance extends FixedSquare{
         p.changeBalance(-p.getHouses()*c.payPerHouse());
         p.changeBalance(-p.getHotels()*c.payPerHotel());
         if(c.subtractSquares() != -1){
-            p.addSquare(-c.subtractSquares());
+            p.setLocation(p.getSquare()-c.subtractSquares());
         }
         //1 is nearest railroad and 2 is nreaest utility
         switch(c.advanceToType()){

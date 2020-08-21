@@ -24,7 +24,7 @@ public class CommunityChest extends FixedSquare{
     public String toString(){
         return "CommunityChest";
     }
-    public void loadDeck(){
+    private void loadDeck(){
         deck.add(new CommunityChestCard(deeds.get(0), 20, false, false,-1,0,0,0));
         deck.add(new CommunityChestCard(deeds.get(1), 0, false, false,-1,0,40,115));
         deck.add(new CommunityChestCard(deeds.get(2), 100, false, false,-1,0,0,0));
@@ -45,7 +45,7 @@ public class CommunityChest extends FixedSquare{
         deck.add(new CommunityChestCard(deeds.get(14), 100, false, false,-1,0,0,0));
         deck.add(new CommunityChestCard(deeds.get(15), 10, false, false,-1,0,0,0));
     }
-    public void loadDeeds(){
+    private void loadDeeds(){
         try{
            BufferedReader input = new BufferedReader(new FileReader("textDocuments/communityChestCards.txt"));
             String line;
@@ -79,4 +79,4 @@ public class CommunityChest extends FixedSquare{
     }
 
 }
-
+ 

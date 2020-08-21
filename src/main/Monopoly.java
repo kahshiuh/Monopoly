@@ -28,7 +28,16 @@ public class Monopoly {
     public Board getBoard(){
         return board;
     }
-
+    public int getPlayers() {
+    	return playerList.size();
+    }
+    public void deletePlayer(String obj) {
+    	for(Player p : playerList) {
+    		if(p.getObject().equals(obj)) {
+    			playerList.remove(p);
+    		}
+    	}
+    }
     public void addPlayer(int num, String obj) {
         playerList.add(new Player(num, obj));
     }
@@ -72,7 +81,17 @@ public class Monopoly {
     	}
     	
     }
-
+    public boolean buyHotel(Player buyer, Property b) {
+    	if(b.getOwner() != buyer.getRollOrder() || buyer.getBalance() < b.getHotelCost() && b.enoughForHotel()) {
+    		buyer.changeBalance(-b.getHotelCost());
+    		b.addHotel();
+    		return true;
+    	}
+    	return false;
+    }
+    public boolean buyHouse() {
+    	return false;
+    }
     public boolean buySquare(Player buyer, BuyableSquare b) {
     	if(buyer.getBalance() > b.getPrice() && !b.getOwned()) {
     		b.setBuyable(false);

@@ -28,6 +28,19 @@ public class Property extends BuyableSquare{
         color = co;
         propertyGroupColor = new Color(r,g,b);
     }
+    public void addHouse() {
+    	houses++;
+    }
+    public void addHotel() {
+    	hotel = true;
+    }
+    
+    public boolean validHouseSpace() {
+    	return houses < 4;
+    }
+    public boolean enoughForHotel() {
+    	return houses == 4;
+    }
     public Color getColor(){
         return propertyGroupColor;
     }

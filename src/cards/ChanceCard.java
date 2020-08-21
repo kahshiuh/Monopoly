@@ -1,9 +1,9 @@
 package cards;
 
-//Same comments as communityChest
-//Two new variables
-//AdvanceToType & subtractSquares
-//Subtract to move back 3 squares and aTT to move to nearest class of Squares(Util. or Railroad)
+/*	Same comments as CommunityChest
+	Two new variables: AdvanceToType & subtractSquares
+	Subtract to move back 3 squares and ATT to move to nearest class of Squares(Util. or Railroad)
+*/
 public class ChanceCard {
   private String cardInfo;
   private int moneyGained;

@@ -21,14 +21,19 @@ public class Player {
     private int railroadsOwned;
     private boolean inJail;
     private boolean getOutOfJail;
+    private String object;
     private ImageIcon piece;
     
     public Player(int r, String o){
         ownedProperties = new ArrayList<Square>();
         rollOrder = r;
+        object = o;
         bankAccount = 0;
         inJail = false;
         railroadsOwned = houses = hotels = 0;
+    }
+    public String getObject() {
+    	return object;
     }
     public void buy(Square b, int price) {
     	ownedProperties.add(b);
@@ -74,13 +79,6 @@ public class Player {
         return rollOrder;
     }
     public int getSquare(){
-        return currentSquare;
-    }
-    public int addSquare(int s){
-        currentSquare += s;
-        if(currentSquare > 40){
-            currentSquare-=40;
-        }
         return currentSquare;
     }
     public int getRailroads(){

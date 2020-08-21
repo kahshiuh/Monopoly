@@ -27,17 +27,7 @@ public class Board {
         loadBoard();
         Collections.sort(board);  
     }
-    public void turnCalculator(int pTurn, int dieRoll) {
-    	
-    }
-    public void loadBoard(){
-        loadProperties();
-        loadUtilities();
-        loadRailroads();
-        loadChanceAndCommunityChest();
-        loadOtherSquares();
-    }
-    
+
     public Square getSquare(int location){
         return board.get(location);
     }
@@ -59,7 +49,14 @@ public class Board {
         }
         return null;
     }
-    public void loadOtherSquares(){
+    private void loadBoard(){
+        loadProperties();
+        loadUtilities();
+        loadRailroads();
+        loadChanceAndCommunityChest();
+        loadOtherSquares();
+    } 
+    private void loadOtherSquares(){
         board.add(new Tax(4,false,"Income Tax", 200));
         board.add(new Tax(38, false, "LuxuryTax", 100));
         board.add(new Jail(10,false));
@@ -67,8 +64,7 @@ public class Board {
         board.add(new GoTo(30,false,10,"GTJ", 0));
         board.add(new GoTo(0,false,0,"Go",200));
     }
-
-    public void loadChanceAndCommunityChest(){
+    private void loadChanceAndCommunityChest(){
         Chance c = new Chance(7,false);
         Chance c1 = new Chance(22,false);
         Chance c2 = new Chance(36,false);
@@ -82,7 +78,7 @@ public class Board {
         board.add(cc1);
         board.add(cc2);
     }
-    public void loadProperties() {
+    private void loadProperties() {
         try {
             BufferedReader input = new BufferedReader(new FileReader("textDocuments/properties.txt"));
             String line;
@@ -116,8 +112,7 @@ public class Board {
 
         }
     }
-
-    public void loadUtilities() {
+    private void loadUtilities() {
         try {
             BufferedReader input = new BufferedReader(new FileReader("textDocuments/utilities.txt"));
             String line;
@@ -138,7 +133,7 @@ public class Board {
 
         }
     }
-    public void loadRailroads(){
+    private void loadRailroads(){
         try {
             BufferedReader input = new BufferedReader(new FileReader("textDocuments/railroads.txt"));
             String line;

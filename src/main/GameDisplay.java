@@ -10,20 +10,23 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import static javax.swing.JFrame.EXIT_ON_CLOSE;
 
-public class GameMain extends JFrame {
+public class GameDisplay extends JFrame {
 
     private final int CANV_WIDTH = 1800;
     private final int CANV_HEIGHT = 1200;
     private Color green = new Color(191, 219, 174);
     private int mouseX, mouseY;
     private int unitSquare = 20;
-    private final Monopoly m = new Monopoly();
+    private static Monopoly m = new Monopoly();
     private ArrayList<Point> centers = new ArrayList(40);
     private Canvas canvas;
     private ImageIcon [] dieSides= new ImageIcon[6];
+    private ImageIcon [] gamePieces = new ImageIcon[8];
     private JLabel dL1, dL2;
 
-    public GameMain() {
+    public GameDisplay() {
+    	super("Monopoly");
+    	getContentPane().setBackground(new Color(143, 188, 114));
     	loadImages();
         canvas = new Canvas();
         canvas.setPreferredSize(new Dimension(CANV_WIDTH, CANV_HEIGHT));
@@ -47,9 +50,12 @@ public class GameMain extends JFrame {
         });
         Container cp = getContentPane();
         cp.add(canvas);
-        Button diceRollBUT = new Button();
-       // diceRollBUT.setPreferredSize(new Dimension(50,50));
-        diceRollBUT.setBounds(unitSquare*60, unitSquare*15, 125, 50);
+        Button diceRollBUT = new Button("Roll");
+        Button nextTurnBUT = new Button("Next Turn");
+        nextTurnBUT.setBounds(unitSquare*79, unitSquare*18, unitSquare*6, unitSquare*3);
+        nextTurnBUT.setBackground(new Color(191, 219, 174));
+        diceRollBUT.setBounds(unitSquare*72, unitSquare*18, unitSquare*6, unitSquare*3);
+        diceRollBUT.setBackground(new Color(191, 219, 174));
         JPanel p = new JPanel();
         p.setBounds(unitSquare*15, unitSquare*25, 125, 50);
         canvas.setLayout(null);
@@ -64,16 +70,31 @@ public class GameMain extends JFrame {
 					dL1.setBounds(unitSquare*23, unitSquare*15, 50, 50);
 					dL2.setBounds(unitSquare*23+50, unitSquare*15, 50, 50);	
 					m.calculateSquare(d1+ d2);
+					diceRollBUT.setEnabled(false);
+					nextTurnBUT.setEnabled(true);
+			}
+        	
+        });
+        nextTurnBUT.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent arg0) {
+				m.nextTurn();
+				diceRollBUT.setEnabled(true);
+				nextTurnBUT.setEnabled(false);
 			}
         	
         });
         canvas.add(dL1);
         canvas.add(dL2);
+        canvas.add(nextTurnBUT);
         canvas.add(diceRollBUT);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         pack();
         setVisible(true);
 
+    }
+    public static Monopoly getGame() {
+    	return m;
     }
     
     private void loadImages() {
@@ -151,7 +172,6 @@ public class GameMain extends JFrame {
         private int loca;
 
         protected void paintComponent(Graphics g2) {
-
             super.paintComponent(g2);
             int square = unitSquare;
             g = (Graphics2D) g2;
@@ -159,6 +179,10 @@ public class GameMain extends JFrame {
             if (drawCard) {
                 drawCard(g, square);
             }
+            g.setColor(Color.BLACK);
+            g.drawRect(57 * unitSquare, square * 18, 12 * unitSquare, 16 * unitSquare);
+            g.drawRect(57 * unitSquare, square * 18, 12 * unitSquare, 4 * unitSquare);
+           setBackground(new Color(143, 188, 114));
             repaint();
         }
         
@@ -312,11 +336,9 @@ public class GameMain extends JFrame {
     }
 
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                new GameMain();
-            }
-        });
+    	StartScreenDisplay s = new StartScreenDisplay();
+  		s.setVisible(true);
+
     }
 
 }
