@@ -2,6 +2,7 @@ package main;
 
 import java.util.ArrayList;
 
+import javax.swing.ImageIcon;
 
 import board.Board;
 import board.BuyableSquare;
@@ -31,6 +32,12 @@ public class Monopoly {
     public int getPlayers() {
     	return playerList.size();
     }
+    public Player getPlayer() {
+    	return playerList.get(turn);
+    }
+    public ArrayList<Player> getPlayerList(){
+    	return playerList;
+    }
     public void deletePlayer(String obj) {
     	for(Player p : playerList) {
     		if(p.getObject().equals(obj)) {
@@ -38,8 +45,8 @@ public class Monopoly {
     		}
     	}
     }
-    public void addPlayer(int num, String obj) {
-        playerList.add(new Player(num, obj));
+    public void addPlayer(int num, String obj, ImageIcon i) {
+        playerList.add(new Player(num, obj, i));
     }
 
     public int rollDie(int dieNum) {
@@ -51,6 +58,9 @@ public class Monopoly {
     	}else {
     		playerList.get(turn).setLocation(squaresMoved + playerList.get(turn).getSquare());
     	}
+    }
+    public Square getSquare(int loc) {
+    	return board.getSquare(loc);
     }
     public void nextTurn(){
         if (turn + 1 >= playerList.size()) {
@@ -92,8 +102,9 @@ public class Monopoly {
     public boolean buyHouse() {
     	return false;
     }
-    public boolean buySquare(Player buyer, BuyableSquare b) {
-    	if(buyer.getBalance() > b.getPrice() && !b.getOwned()) {
+    public boolean buySquare(Player buyer, Square bb) {
+    	BuyableSquare b = (BuyableSquare) bb;
+    	if(buyer.getBalance() > b.getPrice() && !b.getOwned() && b.getBuyable()) {
     		b.setBuyable(false);
     		b.setOwner(buyer.getRollOrder());
     		buyer.buy(b, b.getPrice());

@@ -12,20 +12,21 @@ import static javax.swing.JFrame.EXIT_ON_CLOSE;
 
 public class GameDisplay extends JFrame {
 
-    private final int CANV_WIDTH = 1800;
-    private final int CANV_HEIGHT = 1200;
+    private final int CANV_WIDTH = 1600, CANV_HEIGHT = 1000;
     private Color green = new Color(191, 219, 174);
     private int mouseX, mouseY;
-    private int unitSquare = 20;
+    private int unitSquare = 18;
     private static Monopoly m = new Monopoly();
-    private ArrayList<Point> centers = new ArrayList(40);
+    private ArrayList<Point> startPoint = new ArrayList(40);
     private Canvas canvas;
     private ImageIcon [] dieSides= new ImageIcon[6];
     private ImageIcon [] gamePieces = new ImageIcon[8];
     private JLabel dL1, dL2;
+    private Button diceRollBUT, nextTurnBUT, buyPropertyBUT, sellPropertyBUT;
 
     public GameDisplay() {
     	super("Monopoly");
+    	setResizable(false);
     	getContentPane().setBackground(new Color(143, 188, 114));
     	loadImages();
         canvas = new Canvas();
@@ -50,8 +51,41 @@ public class GameDisplay extends JFrame {
         });
         Container cp = getContentPane();
         cp.add(canvas);
-        Button diceRollBUT = new Button("Roll");
-        Button nextTurnBUT = new Button("Next Turn");
+        buttonInitializer();
+        canvas.add(dL1);
+        canvas.add(dL2);
+        canvas.add(nextTurnBUT);
+        canvas.add(diceRollBUT);
+        canvas.add(sellPropertyBUT);
+        canvas.add(buyPropertyBUT);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        pack();
+        setVisible(true);
+
+    }
+    public void buttonInitializer() {
+    	diceRollBUT = new Button("Roll");
+        nextTurnBUT = new Button("Next Turn");
+        buyPropertyBUT = new Button("Buy Property");
+        sellPropertyBUT = new Button("Sell Property");
+        sellPropertyBUT.setBackground(new Color(191, 219, 174));
+        sellPropertyBUT.setBounds(unitSquare*79, unitSquare*22, unitSquare*6, unitSquare*3);
+        buyPropertyBUT.setBackground(new Color(191, 219, 174));
+        buyPropertyBUT.setBounds(unitSquare*72, unitSquare*22, unitSquare*6, unitSquare*3);
+        buyPropertyBUT.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				m.buySquare(m.getPlayer(), m.getSquare(m.getPlayer().getSquare()));
+				
+			}
+        	
+        });
+        sellPropertyBUT.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+        	
+        });
         nextTurnBUT.setBounds(unitSquare*79, unitSquare*18, unitSquare*6, unitSquare*3);
         nextTurnBUT.setBackground(new Color(191, 219, 174));
         diceRollBUT.setBounds(unitSquare*72, unitSquare*18, unitSquare*6, unitSquare*3);
@@ -62,7 +96,6 @@ public class GameDisplay extends JFrame {
         dL1 = new JLabel();
         dL2 = new JLabel();
         diceRollBUT.addActionListener(new ActionListener() {
-			@Override
 			public void actionPerformed(ActionEvent arg0) {
 					int d1 = m.rollDie(1), d2 = m.rollDie(2);
 					dL1.setIcon(dieSides[d1-1]);
@@ -72,6 +105,9 @@ public class GameDisplay extends JFrame {
 					m.calculateSquare(d1+ d2);
 					diceRollBUT.setEnabled(false);
 					nextTurnBUT.setEnabled(true);
+					for(int i = 0; i < 40; i++) {
+						System.out.println("Point " + i + ": " + startPoint.get(i).getX() + ", " + startPoint.get(i).getY());
+					}
 			}
         	
         });
@@ -84,14 +120,6 @@ public class GameDisplay extends JFrame {
 			}
         	
         });
-        canvas.add(dL1);
-        canvas.add(dL2);
-        canvas.add(nextTurnBUT);
-        canvas.add(diceRollBUT);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
-        pack();
-        setVisible(true);
-
     }
     public static Monopoly getGame() {
     	return m;
@@ -182,8 +210,18 @@ public class GameDisplay extends JFrame {
             g.setColor(Color.BLACK);
             g.drawRect(57 * unitSquare, square * 18, 12 * unitSquare, 16 * unitSquare);
             g.drawRect(57 * unitSquare, square * 18, 12 * unitSquare, 4 * unitSquare);
-           setBackground(new Color(143, 188, 114));
+            setBackground(new Color(143, 188, 114));
+            drawPieces();
             repaint();
+        }
+        
+        public void drawPieces() {
+        	for(Player p : m.getPlayerList()) {
+        			JLabel t = new JLabel();
+            		t.setIcon(p.getIcon());
+            		t.setBounds((int) startPoint.get(p.getSquare()).getX(), (int) startPoint.get(p.getSquare()).getY(), 50,50);
+            		add(t);
+        	}
         }
         
 
@@ -256,7 +294,6 @@ public class GameDisplay extends JFrame {
             //Squares on Corners
             g.setColor(green);
             g.fillRect(0, 0, square * 7, square * 7);
-            centers.add(new Point(square * 7 / 2, square * 7 / 2));
             g.fillRect(43 * square, 0, square * 7, square * 7);
             g.fillRect(0, 43 * square, square * 7, square * 7);
             g.fillRect(43 * square, 43 * square, square * 7, square * 7);
@@ -266,6 +303,7 @@ public class GameDisplay extends JFrame {
             g.drawRect(0, 43 * square, square * 7, square * 7);
             g.drawRect(43 * square, 43 * square, square * 7, square * 7);
             int ii = 1;
+            startPoint.add(new Point(0, 43*square));
             //BottomLeft to TopLeft
             for (int i = 8; i >= 0; i--) {
                 g.setColor(green);
@@ -278,10 +316,10 @@ public class GameDisplay extends JFrame {
                     g.setColor(Color.BLACK);
                     g.drawRect(5 * square, square * 7 + i * square * 4, square * 2, square * 4);
                 }
-                centers.add(new Point((7 * square / 2), square * 7 + i * square * 4 + 2 * square));
+                startPoint.add(new Point(0, square * 7 + i * square * 4));
                 ii++;
             }
-            centers.add(new Point(43 * square + (7 * square / 2), (7 * square / 2)));
+            startPoint.add(new Point(0,0));
             ii++;
             //TopLeft to TopRight
             for (int i = 0; i < 9; i++) {
@@ -295,11 +333,11 @@ public class GameDisplay extends JFrame {
                     g.setColor(Color.BLACK);
                     g.drawRect(square * 7 + i * square * 4, 5 * square, square * 4, square * 2);
                 }
-                centers.add(new Point(square * 7 + i * square * 4 + 2 * square, (7 * square / 2)));
+                startPoint.add(new Point(square * 7 + i * square * 4 , 0));
                 ii++;
             }
             ii++;
-            centers.add(new Point(square * 7 / 2, 43 * square + (7 * square / 2)));
+            startPoint.add(new Point(43*square, 0));
             //TopRight to BottomRight
             for (int i = 0; i < 9; i++) {
                 g.setColor(green);
@@ -312,11 +350,11 @@ public class GameDisplay extends JFrame {
                     g.setColor(Color.BLACK);
                     g.drawRect((int) 43 * square, square * 7 + i * square * 4, square * 2, square * 4);
                 }
-                centers.add(new Point(43 * square + (square * 7 / 2), square * 7 + i * square * 4 + 2 * square));
+                startPoint.add(new Point(43 * square, square * 7 + i * square * 4));
                 ii++;
             }
             ii++;
-            centers.add(new Point(43 * square + (7 * square / 2), 43 * square + (7 * square / 2)));
+            startPoint.add(new Point(43 * square, 43 * square));
             //BottomRight to BottomLeft
             for (int i = 8; i >= 0; i--) {
                 g.setColor(green);
@@ -329,16 +367,10 @@ public class GameDisplay extends JFrame {
                     g.setColor(Color.BLACK);
                     g.drawRect(square * 7 + i * square * 4, 43 * square, square * 4, square * 2);
                 }
-                centers.add(new Point(square * 7 + i * square * 4 - 2 * square, 43 * square + (7 * square / 2)));
+                startPoint.add(new Point(square * 7 + i * square * 4, 43 * square));
                 ii++;
             }
         }
-    }
-
-    public static void main(String[] args) {
-    	StartScreenDisplay s = new StartScreenDisplay();
-  		s.setVisible(true);
-
     }
 
 }

@@ -24,13 +24,17 @@ public class Player {
     private String object;
     private ImageIcon piece;
     
-    public Player(int r, String o){
+    public Player(int r, String o, ImageIcon piece){
         ownedProperties = new ArrayList<Square>();
         rollOrder = r;
         object = o;
         bankAccount = 0;
         inJail = false;
         railroadsOwned = houses = hotels = 0;
+        this.piece = piece;
+    }
+    public ImageIcon getIcon(){
+    	return piece;
     }
     public String getObject() {
     	return object;
