@@ -75,7 +75,7 @@ public class StartScreenDisplay extends JFrame{
 						case "Scottie Dog":
 							try {
 								Image image = ImageIO.read(new File("images/gamePieces/dog.png"));
-				    			Image image1 = image.getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH);
+				    			Image image1 = image.getScaledInstance(GameDisplay.unitSquare*2, GameDisplay.unitSquare*2, java.awt.Image.SCALE_SMOOTH);
 				    			GameDisplay.getGame().addPlayer(players, s, new ImageIcon(image1));;
 							} catch (IOException e) {
 								// TODO Auto-generated catch block
@@ -85,7 +85,7 @@ public class StartScreenDisplay extends JFrame{
 						case "Top Hat":
 							try {
 								Image image = ImageIO.read(new File("images/gamePieces/hat.png"));
-				    			Image image1 = image.getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH);
+				    			Image image1 = image.getScaledInstance(GameDisplay.unitSquare*2, GameDisplay.unitSquare*2, java.awt.Image.SCALE_SMOOTH);
 				    			GameDisplay.getGame().addPlayer(players, s, new ImageIcon(image1));;
 							} catch (IOException e) {
 								// TODO Auto-generated catch block
@@ -94,8 +94,8 @@ public class StartScreenDisplay extends JFrame{
 							break;
 						case "Thimble":
 							try {
-								Image image = ImageIO.read(new File("images/gamePieces/thimble.jpg"));
-				    			Image image1 = image.getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH);
+								Image image = ImageIO.read(new File("images/gamePieces/thimble.png"));
+				    			Image image1 = image.getScaledInstance(GameDisplay.unitSquare*2, GameDisplay.unitSquare*2, java.awt.Image.SCALE_SMOOTH);
 				    			GameDisplay.getGame().addPlayer(players, s, new ImageIcon(image1));;
 							} catch (IOException e) {
 								// TODO Auto-generated catch block
@@ -105,7 +105,7 @@ public class StartScreenDisplay extends JFrame{
 						case "Boot":
 							try {
 								Image image = ImageIO.read(new File("images/gamePieces/boot.png"));
-				    			Image image1 = image.getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH);
+				    			Image image1 = image.getScaledInstance(GameDisplay.unitSquare*2, GameDisplay.unitSquare*2, java.awt.Image.SCALE_SMOOTH);
 				    			GameDisplay.getGame().addPlayer(players, s, new ImageIcon(image1));;
 							} catch (IOException e) {
 								// TODO Auto-generated catch block
@@ -115,7 +115,7 @@ public class StartScreenDisplay extends JFrame{
 						case "Wheelbarrow":
 							try {
 								Image image = ImageIO.read(new File("images/gamePieces/wheelbarrow.png"));
-				    			Image image1 = image.getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH);
+				    			Image image1 = image.getScaledInstance(GameDisplay.unitSquare*2, GameDisplay.unitSquare*2, java.awt.Image.SCALE_SMOOTH);
 				    			GameDisplay.getGame().addPlayer(players, s, new ImageIcon(image1));;
 							} catch (IOException e) {
 								// TODO Auto-generated catch block
@@ -125,7 +125,7 @@ public class StartScreenDisplay extends JFrame{
 						case "Iron":
 							try {
 								Image image = ImageIO.read(new File("images/gamePieces/iron.png"));
-				    			Image image1 = image.getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH);
+				    			Image image1 = image.getScaledInstance(GameDisplay.unitSquare*2, GameDisplay.unitSquare*2, java.awt.Image.SCALE_SMOOTH);
 				    			GameDisplay.getGame().addPlayer(players, s, new ImageIcon(image1));;
 							} catch (IOException e) {
 								// TODO Auto-generated catch block
@@ -135,21 +135,23 @@ public class StartScreenDisplay extends JFrame{
 						case "Racing Car":	
 							try {
 								Image image = ImageIO.read(new File("images/gamePieces/car.png"));
-				    			Image image1 = image.getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH);
+				    			Image image1 = image.getScaledInstance(GameDisplay.unitSquare*2, GameDisplay.unitSquare*2, java.awt.Image.SCALE_SMOOTH);
 				    			GameDisplay.getGame().addPlayer(players, s, new ImageIcon(image1));;
 							} catch (IOException e) {
 								// TODO Auto-generated catch block
 								e.printStackTrace();
 							}
+							break;
 						case "Battleship":	
 							try {
-								Image image = ImageIO.read(new File("images/gamePieces/ship.jpg"));
-				    			Image image1 = image.getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH);
+								Image image = ImageIO.read(new File("images/gamePieces/ship.png"));
+				    			Image image1 = image.getScaledInstance(GameDisplay.unitSquare*2, GameDisplay.unitSquare*2, java.awt.Image.SCALE_SMOOTH);
 				    			GameDisplay.getGame().addPlayer(players, s, new ImageIcon(image1));;
 							} catch (IOException e) {
 								// TODO Auto-generated catch block
-								e.printStackTrace();
+							e.printStackTrace();
 							}
+							break;
 						}
 						players++;
 					}

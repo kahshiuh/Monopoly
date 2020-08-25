@@ -27,6 +27,9 @@ public class Board {
         loadBoard();
         Collections.sort(board);  
     }
+    public ArrayList<Square> getBoard(){
+    	return board;
+    }
 
     public Square getSquare(int location){
         return board.get(location);

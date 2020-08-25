@@ -2,15 +2,28 @@ package board;
 
 
 import java.awt.Color;
+import java.util.ArrayList;
+
+import main.Player;
 
 public class Square implements Comparable{
     //Location of Square and Whether you can buy it
+	private ArrayList <Player> presentPlayers;
     private int location;
     private boolean buyable;
     private String deed;
     public Square(int l, boolean b){
         location = l;
         buyable = b;
+    }
+    public void addPlayer(Player p) {
+    	presentPlayers.add(p);
+    }
+    public void removePlayer(Player p) {
+    	presentPlayers.remove(p);
+    }
+    public ArrayList<Player> getPresentPlayers(){
+    	return presentPlayers;
     }
     //Basic Accessors
     public int getLocation(){
@@ -32,7 +45,6 @@ public class Square implements Comparable{
         return deed;
     }
 
-    @Override
     public int compareTo(Object t) {
         Square other = (Square) t;
         return location - other.getLocation();

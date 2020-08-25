@@ -5,6 +5,7 @@ import java.awt.event.*;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.LinkedList;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -15,13 +16,15 @@ public class GameDisplay extends JFrame {
     private final int CANV_WIDTH = 1600, CANV_HEIGHT = 1000;
     private Color green = new Color(191, 219, 174);
     private int mouseX, mouseY;
-    private int unitSquare = 18;
+    public final static int unitSquare = 18;
     private static Monopoly m = new Monopoly();
     private ArrayList<Point> startPoint = new ArrayList(40);
     private Canvas canvas;
     private ImageIcon [] dieSides= new ImageIcon[6];
     private ImageIcon [] gamePieces = new ImageIcon[8];
     private JLabel dL1, dL2;
+    private ArrayList<JLabel> playerPieces = new ArrayList();
+    private boolean dieRolled = false;
     private Button diceRollBUT, nextTurnBUT, buyPropertyBUT, sellPropertyBUT;
 
     public GameDisplay() {
@@ -81,7 +84,7 @@ public class GameDisplay extends JFrame {
         });
         sellPropertyBUT.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
+				
 				
 			}
         	
@@ -105,9 +108,7 @@ public class GameDisplay extends JFrame {
 					m.calculateSquare(d1+ d2);
 					diceRollBUT.setEnabled(false);
 					nextTurnBUT.setEnabled(true);
-					for(int i = 0; i < 40; i++) {
-						System.out.println("Point " + i + ": " + startPoint.get(i).getX() + ", " + startPoint.get(i).getY());
-					}
+					m.getPlayerSquares().put(0, m.getPlayerSquares().get(0)+1);
 			}
         	
         });
@@ -216,12 +217,20 @@ public class GameDisplay extends JFrame {
         }
         
         public void drawPieces() {
-        	for(Player p : m.getPlayerList()) {
-        			JLabel t = new JLabel();
-            		t.setIcon(p.getIcon());
-            		t.setBounds((int) startPoint.get(p.getSquare()).getX(), (int) startPoint.get(p.getSquare()).getY(), 50,50);
-            		add(t);
+        	if(dieRolled) {
+        		for(int i = 0; i < m.getPlayers(); i++) {
+        			remove(playerPieces.get(i));
+        		}
+        		playerPieces.clear();
         	}
+        	for(Player p : m.getPlayerList()) {
+        		JLabel t = new JLabel();
+            	t.setIcon(p.getIcon());
+            	t.setBounds((int) startPoint.get(p.getSquare()).getX(), (int) startPoint.get(p.getSquare()).getY(), unitSquare*2,unitSquare*2);
+            	playerPieces.add(t);
+            	add(t);
+            	dieRolled = true;
+        	} 	
         }
         
 

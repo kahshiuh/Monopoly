@@ -1,6 +1,7 @@
 package main;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.swing.ImageIcon;
 
@@ -18,13 +19,24 @@ public class Monopoly {
     private Dice d1;
     private Dice d2;
     private int turn;
+    private HashMap<Integer, Integer> playerSquares;
 
     public Monopoly() {
         board = new Board();
         playerList = new ArrayList();
         d1 = new Dice();
         d2 = new Dice();
+        playerSquares = new HashMap();
+        mapSetUp();
         turn = 0;
+    }
+    public HashMap<Integer, Integer> getPlayerSquares(){
+    	return playerSquares;
+    }
+    public void mapSetUp() {
+    	for(int i = 0; i < 40; i++) {
+    		playerSquares.put(i, 0);
+    	}
     }
     public Board getBoard(){
         return board;
