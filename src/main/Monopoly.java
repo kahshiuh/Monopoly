@@ -59,6 +59,7 @@ public class Monopoly {
     }
     public void addPlayer(int num, String obj, ImageIcon i) {
         playerList.add(new Player(num, obj, i));
+        playerSquares.put(0, playerSquares.get(0) + 1);
     }
 
     public int rollDie(int dieNum) {
@@ -66,9 +67,13 @@ public class Monopoly {
     }
     public void calculateSquare(int squaresMoved) {
     	if(playerList.get(turn).getSquare() + squaresMoved > 40) {
+    		playerSquares.put(playerList.get(turn).getSquare(), playerSquares.get(playerList.get(turn).getSquare()) - 1);
     		playerList.get(turn).setLocation(squaresMoved + playerList.get(turn).getSquare() - 40);
+    		playerSquares.put(playerList.get(turn).getSquare(), playerSquares.get(playerList.get(turn).getSquare())+1);
     	}else {
+    		playerSquares.put(playerList.get(turn).getSquare(), playerSquares.get(playerList.get(turn).getSquare()) - 1);
     		playerList.get(turn).setLocation(squaresMoved + playerList.get(turn).getSquare());
+    		playerSquares.put(playerList.get(turn).getSquare(), playerSquares.get(playerList.get(turn).getSquare())+1);
     	}
     }
     public Square getSquare(int loc) {

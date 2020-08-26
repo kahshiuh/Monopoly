@@ -4,6 +4,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.LinkedList;
 
@@ -108,7 +109,7 @@ public class GameDisplay extends JFrame {
 					m.calculateSquare(d1+ d2);
 					diceRollBUT.setEnabled(false);
 					nextTurnBUT.setEnabled(true);
-					m.getPlayerSquares().put(0, m.getPlayerSquares().get(0)+1);
+
 			}
         	
         });
@@ -217,6 +218,7 @@ public class GameDisplay extends JFrame {
         }
         
         public void drawPieces() {
+        	HashMap <Integer, Integer> map = new HashMap<Integer, Integer>(m.getPlayerSquares());
         	if(dieRolled) {
         		for(int i = 0; i < m.getPlayers(); i++) {
         			remove(playerPieces.get(i));
@@ -224,13 +226,28 @@ public class GameDisplay extends JFrame {
         		playerPieces.clear();
         	}
         	for(Player p : m.getPlayerList()) {
+        		int xMultiplier = 0, yMultiplier = 0, ocXM, ocYM, pSpot = map.get(p.getSquare());
+        		yMultiplier = (int) Math.floor(pSpot/3.1);
+        		xMultiplier = pSpot%3;
+        		if(pSpot%3 == 0) xMultiplier = 3;
+        		ocYM = Math.abs(pSpot%2-1);
+        		ocXM = (int) Math.floor(pSpot/2.1);
         		JLabel t = new JLabel();
             	t.setIcon(p.getIcon());
-            	t.setBounds((int) startPoint.get(p.getSquare()).getX(), (int) startPoint.get(p.getSquare()).getY(), unitSquare*2,unitSquare*2);
+            	if(pSpot == 1) {
+            		t.setBounds((int) startPoint.get(p.getSquare()).getX(), (int) startPoint.get(p.getSquare()).getY(), unitSquare*2,unitSquare*2);
+            	}else if(p.getSquare() == 0 || p.getSquare() == 10 || p.getSquare() == 20 || p.getSquare() == 30){
+            		t.setBounds((int) startPoint.get(p.getSquare()).getX() + (unitSquare*2*(xMultiplier-1)), (int) startPoint.get(p.getSquare()).getY()+(unitSquare*2*yMultiplier), unitSquare*2,unitSquare*2);
+            	}else if((p.getSquare() > 0 && p.getSquare() < 10) || (p.getSquare() > 20 && p.getSquare() < 30)){
+            		t.setBounds((int) startPoint.get(p.getSquare()).getX()+(unitSquare*2*ocXM), (int) startPoint.get(p.getSquare()).getY() + (unitSquare*2*ocYM), unitSquare*2,unitSquare*2);
+            	}else {
+            		t.setBounds((int) startPoint.get(p.getSquare()).getX()+(unitSquare*2*ocYM), (int) startPoint.get(p.getSquare()).getY() + (unitSquare*2*ocXM), unitSquare*2,unitSquare*2);
+            	}
+            	map.put(p.getSquare(), map.get(p.getSquare()) - 1);
             	playerPieces.add(t);
             	add(t);
             	dieRolled = true;
-        	} 	
+        	} 
         }
         
 

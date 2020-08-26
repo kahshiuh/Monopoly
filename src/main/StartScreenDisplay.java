@@ -68,7 +68,6 @@ public class StartScreenDisplay extends JFrame{
 				public void actionPerformed(ActionEvent arg0) {
 					String s = (String) pieceChoice.getSelectedItem();
 					if(s != null) {
-						System.out.println(s);
 						pieceChoice.removeItem(s);
 						delPlayerChoice.addItem(s);
 						switch(s) {
@@ -168,7 +167,6 @@ public class StartScreenDisplay extends JFrame{
 					// TODO Auto-generated method stub
 					String s = (String) delPlayerChoice.getSelectedItem();
 					if(s != null) {
-						System.out.println(s);
 						delPlayerChoice.removeItem(s);
 						pieceChoice.addItem(s);
 						GameDisplay.getGame().deletePlayer(s);
