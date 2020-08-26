@@ -4,7 +4,7 @@ package board;
 import java.awt.Color;
 import java.util.ArrayList;
 
-import main.Player;
+import game.Player;
 
 public class Square implements Comparable{
     //Location of Square and Whether you can buy it

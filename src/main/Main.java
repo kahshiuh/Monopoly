@@ -1,5 +1,7 @@
 package main;
 
+import display.StartScreenDisplay;
+
 public class Main {
 
 	public static void main(String[] args) {

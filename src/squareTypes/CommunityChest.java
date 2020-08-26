@@ -8,7 +8,7 @@ import java.util.StringTokenizer;
 
 import board.FixedSquare;
 import cards.CommunityChestCard;
-import main.Player;
+import game.Player;
 
 public class CommunityChest extends FixedSquare{
     

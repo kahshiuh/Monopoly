@@ -1,4 +1,4 @@
-package main;
+package display;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -10,12 +10,16 @@ import java.util.LinkedList;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+
+import game.Monopoly;
+import game.Player;
+
 import static javax.swing.JFrame.EXIT_ON_CLOSE;
 
 public class GameDisplay extends JFrame {
 
     private final int CANV_WIDTH = 1600, CANV_HEIGHT = 1000;
-    private Color green = new Color(191, 219, 174);
+    private Color green = new Color(191, 219, 174), lg = new Color(191, 219, 174);
     private int mouseX, mouseY;
     public final static int unitSquare = 18;
     private static Monopoly m = new Monopoly();
@@ -26,7 +30,9 @@ public class GameDisplay extends JFrame {
     private JLabel dL1, dL2;
     private ArrayList<JLabel> playerPieces = new ArrayList();
     private boolean dieRolled = false;
-    private Button diceRollBUT, nextTurnBUT, buyPropertyBUT, sellPropertyBUT;
+    private Button diceRollBUT, nextTurnBUT, buyPropertyBUT, sellPropertyBUT, viewProfileBUT;
+    private String[] pNames = new String[m.getPlayers()];
+    private JComboBox<String> playerViewList;
 
     public GameDisplay() {
     	super("Monopoly");
@@ -55,28 +61,59 @@ public class GameDisplay extends JFrame {
         });
         Container cp = getContentPane();
         cp.add(canvas);
+        nameGetter();
         buttonInitializer();
-        canvas.add(dL1);
-        canvas.add(dL2);
-        canvas.add(nextTurnBUT);
-        canvas.add(diceRollBUT);
-        canvas.add(sellPropertyBUT);
-        canvas.add(buyPropertyBUT);
+        componentAdder();
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         pack();
         setVisible(true);
 
     }
-    public void buttonInitializer() {
+    private void nameGetter() {
+    	for(int i = 0; i < m.getPlayers(); i++) {
+    		pNames[i] = m.getPlayerList().get(i).getObject();
+    	}
+    }
+    private void componentAdder() {
+    	canvas.add(dL1);
+        canvas.add(dL2);
+        canvas.add(nextTurnBUT);
+        canvas.add(diceRollBUT);
+        canvas.add(sellPropertyBUT);
+        canvas.add(buyPropertyBUT);
+        canvas.add(viewProfileBUT);
+        canvas.add(playerViewList);
+    }
+    private void buttonInitializer() {
     	diceRollBUT = new Button("Roll");
         nextTurnBUT = new Button("Next Turn");
         buyPropertyBUT = new Button("Buy Property");
         sellPropertyBUT = new Button("Sell Property");
-        sellPropertyBUT.setBackground(new Color(191, 219, 174));
+        viewProfileBUT = new Button("View Profile");
+        viewProfileBUT.setBackground(lg);
+        viewProfileBUT.setBounds(unitSquare*79, unitSquare*26, unitSquare*6, unitSquare*3);
+        viewProfileBUT.setBackground(lg);
+        sellPropertyBUT.setBackground(lg);
         sellPropertyBUT.setBounds(unitSquare*79, unitSquare*22, unitSquare*6, unitSquare*3);
-        buyPropertyBUT.setBackground(new Color(191, 219, 174));
+        buyPropertyBUT.setBackground(lg);
         buyPropertyBUT.setBounds(unitSquare*72, unitSquare*22, unitSquare*6, unitSquare*3);
-        buyPropertyBUT.addActionListener(new ActionListener() {
+        nextTurnBUT.setBounds(unitSquare*79, unitSquare*18, unitSquare*6, unitSquare*3);
+        nextTurnBUT.setBackground(new Color(191, 219, 174));
+        diceRollBUT.setBounds(unitSquare*72, unitSquare*18, unitSquare*6, unitSquare*3);
+        diceRollBUT.setBackground(new Color(191, 219, 174));
+        JPanel p = new JPanel();
+        p.setBounds(unitSquare*15, unitSquare*25, 125, 50);
+        canvas.setLayout(null);
+        dL1 = new JLabel();
+        dL2 = new JLabel();
+       actionListenerInitializer();
+       playerViewList = new JComboBox(pNames);
+       playerViewList.setBackground(new Color(255,255,255));
+       playerViewList.setBounds(unitSquare*72, unitSquare*26, unitSquare*6, unitSquare*3);
+        
+    }
+    private void actionListenerInitializer() {
+    	buyPropertyBUT.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				m.buySquare(m.getPlayer(), m.getSquare(m.getPlayer().getSquare()));
 				
@@ -90,16 +127,15 @@ public class GameDisplay extends JFrame {
 			}
         	
         });
-        nextTurnBUT.setBounds(unitSquare*79, unitSquare*18, unitSquare*6, unitSquare*3);
-        nextTurnBUT.setBackground(new Color(191, 219, 174));
-        diceRollBUT.setBounds(unitSquare*72, unitSquare*18, unitSquare*6, unitSquare*3);
-        diceRollBUT.setBackground(new Color(191, 219, 174));
-        JPanel p = new JPanel();
-        p.setBounds(unitSquare*15, unitSquare*25, 125, 50);
-        canvas.setLayout(null);
-        dL1 = new JLabel();
-        dL2 = new JLabel();
-        diceRollBUT.addActionListener(new ActionListener() {
+    	nextTurnBUT.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				m.nextTurn();
+				diceRollBUT.setEnabled(true);
+				nextTurnBUT.setEnabled(false);
+			}
+        	
+        });
+    	diceRollBUT.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 					int d1 = m.rollDie(1), d2 = m.rollDie(2);
 					dL1.setIcon(dieSides[d1-1]);
@@ -113,14 +149,13 @@ public class GameDisplay extends JFrame {
 			}
         	
         });
-        nextTurnBUT.addActionListener(new ActionListener() {
-
-			public void actionPerformed(ActionEvent arg0) {
-				m.nextTurn();
-				diceRollBUT.setEnabled(true);
-				nextTurnBUT.setEnabled(false);
-			}
-        	
+    	viewProfileBUT.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String s = (String) playerViewList.getSelectedItem();
+				PlayerProfileDisplay d = new PlayerProfileDisplay(s);
+				d.setVisible(true);
+				d.setResizable(false);
+			}       	
         });
     }
     public static Monopoly getGame() {

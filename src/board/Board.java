@@ -15,8 +15,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.StringTokenizer;
 
-import main.Dice;
-import main.Player;
+import game.Dice;
+import game.Player;
 
 public class Board {
 

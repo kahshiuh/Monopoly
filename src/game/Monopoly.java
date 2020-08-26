@@ -1,5 +1,6 @@
-package main;
+package game;
 
+import java.awt.Image;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -44,6 +45,12 @@ public class Monopoly {
     public int getPlayers() {
     	return playerList.size();
     }
+    public Player getPlayer(String s) {
+    	for(Player p : playerList) {
+    		if(p.getObject().equals(s)) return p;
+    	}
+    	return null;
+    }
     public Player getPlayer() {
     	return playerList.get(turn);
     }
@@ -57,8 +64,8 @@ public class Monopoly {
     		}
     	}
     }
-    public void addPlayer(int num, String obj, ImageIcon i) {
-        playerList.add(new Player(num, obj, i));
+    public void addPlayer(int num, String obj, ImageIcon i, Image ii) {
+        playerList.add(new Player(num, obj, i, ii));
         playerSquares.put(0, playerSquares.get(0) + 1);
     }
 
@@ -130,7 +137,7 @@ public class Monopoly {
     	}
     	return false;
     }
-    public boolean sellSquare(Player seller, Square b, Player buyer, int price) {
+    public boolean sellSquare(Player seller, BuyableSquare b, Player buyer, int price) {
     	if(buyer.getBalance() > price) {
     		seller.sell(b, price);
     		b.setBuyable(false);

@@ -1,7 +1,8 @@
-package main;
+package game;
 
 
 import java.awt.Color;
+import java.awt.Image;
 import java.util.ArrayList;
 import javax.swing.ImageIcon;
 
@@ -12,7 +13,7 @@ import squareTypes.Railroad;
 import squareTypes.Utility;
 
 public class Player {
-    private ArrayList <Square> ownedProperties;
+    private ArrayList <BuyableSquare> ownedProperties;
     private int bankAccount;
     private int houses;
     private int hotels;
@@ -23,15 +24,46 @@ public class Player {
     private boolean getOutOfJail;
     private String object;
     private ImageIcon piece;
+    private Image rawImage;
     
-    public Player(int r, String o, ImageIcon piece){
-        ownedProperties = new ArrayList<Square>();
+    public Player(int r, String o, ImageIcon piece, Image i){
+        ownedProperties = new ArrayList<BuyableSquare>();
         rollOrder = r;
         object = o;
         bankAccount = 0;
         inJail = false;
         railroadsOwned = houses = hotels = 0;
+        rawImage = i;
         this.piece = piece;
+    }
+    /*
+     * 
+     * Need to check for if the square is a property
+     * 
+     * 
+     */
+    public int totalHotelsOwned() {
+    	int ans = 0;
+    	for(int i = 0; i < getPropertyCount(); i++) {
+    		
+    	}
+    	return ans;
+    }
+    public int totalHousesOwned() {
+    	int ans = 0;
+    	for(int i = 0; i < getPropertyCount(); i++) {
+    		//ans += ownedProperties.get(i).
+    	}
+    	return ans;
+    }
+    public ArrayList<BuyableSquare> getOwnedProperties() {
+    	return ownedProperties;
+    }
+    public int getPropertyCount() {
+    	return ownedProperties.size();
+    }
+    public Image getRawImage() {
+    	return rawImage;
     }
     public ImageIcon getIcon(){
     	return piece;
@@ -39,7 +71,7 @@ public class Player {
     public String getObject() {
     	return object;
     }
-    public void buy(Square b, int price) {
+    public void buy(BuyableSquare b, int price) {
     	ownedProperties.add(b);
     	bankAccount -= price;
     }

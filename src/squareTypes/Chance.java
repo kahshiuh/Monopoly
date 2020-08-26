@@ -9,7 +9,7 @@ import java.util.StringTokenizer;
 
 import board.FixedSquare;
 import cards.ChanceCard;
-import main.Player;
+import game.Player;
 
 
 public class Chance extends FixedSquare{    

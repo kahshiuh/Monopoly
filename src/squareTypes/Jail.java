@@ -4,7 +4,7 @@ package squareTypes;
 import java.util.ArrayList;
 
 import board.FixedSquare;
-import main.Player;
+import game.Player;
 
 public class Jail extends FixedSquare{
     private ArrayList <Player> jailedPlayers = new ArrayList();
