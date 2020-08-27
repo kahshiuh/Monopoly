@@ -115,15 +115,11 @@ public class GameDisplay extends JFrame {
     private void actionListenerInitializer() {
     	buyPropertyBUT.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				m.buySquare(m.getPlayer(), m.getSquare(m.getPlayer().getSquare()));
-				
-			}
-        	
+				m.buySquare(m.getPlayer(), m.getSquare(m.getPlayer().getSquare()));				
+			}        	
         });
         sellPropertyBUT.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-				
+			public void actionPerformed(ActionEvent e) {			
 			}
         	
         });
@@ -178,54 +174,37 @@ public class GameDisplay extends JFrame {
         int squareNumber = 0;
         //From Square 0-10
         if (mouseX >= 0 && mouseX < 7 * unitSquare && mouseY <= 50 * unitSquare) {
-            if (mouseY > unitSquare * 43 && mouseY < unitSquare * 50) {
-                return squareNumber;
-            }
+            if (mouseY > unitSquare * 43 && mouseY < unitSquare * 50)return squareNumber;
             for (int i = 10; i >= 0; i--) {
-                if (mouseY < unitSquare * 4 * i + unitSquare + unitSquare * 7 && mouseY > unitSquare * 4 * (i - 1) + unitSquare * 7) {
-                    return squareNumber;
-                }
+                if (mouseY < unitSquare * 4 * i + unitSquare + unitSquare * 7 && mouseY > unitSquare * 4 * (i - 1) + unitSquare * 7) return squareNumber;
                 squareNumber++;
             }
-            if (mouseY > 0 && mouseY < unitSquare * 7) {
-                return squareNumber;
-            }
+            if (mouseY > 0 && mouseY < unitSquare * 7)return squareNumber;
+
             //From Square 11-19    
         } else if (mouseX >= 7 * unitSquare && mouseX <= unitSquare * 43 && mouseY <= 7 * unitSquare) {
             squareNumber = 11;
             for (int i = 0; i < 9; i++) {
-                if (mouseX > 7 * unitSquare + unitSquare * 4 * i && mouseX < 7 * unitSquare + unitSquare * 4 * (i + 1)) {
-                    return squareNumber;
-                }
-                squareNumber++;
+            	 if (mouseX > 7 * unitSquare + unitSquare * 4 * i && mouseX < 7 * unitSquare + unitSquare * 4 * (i + 1)) return squareNumber;
+            	 squareNumber++;
             }
             //From Square 20-30
         } else if (mouseX > 43 * unitSquare && mouseX <= 50 * unitSquare && mouseY <= 50 * unitSquare) {
             squareNumber = 20;
-            if (mouseY > 0 && mouseY < 7 * unitSquare) {
-                return squareNumber;
-            }
+            if (mouseY > 0 && mouseY < 7 * unitSquare) return squareNumber;
             squareNumber++;
             for (int i = 0; i < 9; i++) {
-                if (mouseY > i * 4 * unitSquare + 7 * unitSquare && mouseY < unitSquare * (i + 1) * 4 + 7 * unitSquare) {
-                    return squareNumber;
-                }
+                if (mouseY > i * 4 * unitSquare + 7 * unitSquare && mouseY < unitSquare * (i + 1) * 4 + 7 * unitSquare) return squareNumber;
                 squareNumber++;
             }
-            if (mouseY > 43 * unitSquare && mouseY < 50 * unitSquare) {
-                return squareNumber;
-
-            }
+            if (mouseY > 43 * unitSquare && mouseY < 50 * unitSquare)return squareNumber;
             //From Square 31-39
         } else if (mouseX >= 7 * unitSquare && mouseX <= unitSquare * 43 && mouseY >= 43 * unitSquare && mouseY < 50 * unitSquare) {
             squareNumber = 31;
             for (int i = 9; i > 0; i--) {
-                if (mouseX < 7 * unitSquare + i * 4 * unitSquare && mouseX > 7 * unitSquare + (i - 1) * 4 * unitSquare) {
-                    return squareNumber;
-                }
+                if (mouseX < 7 * unitSquare + i * 4 * unitSquare && mouseX > 7 * unitSquare + (i - 1) * 4 * unitSquare) return squareNumber;
                 squareNumber++;
             }
-
         }
         return -1;
     }
@@ -238,15 +217,14 @@ public class GameDisplay extends JFrame {
 
         protected void paintComponent(Graphics g2) {
             super.paintComponent(g2);
-            int square = unitSquare;
             g = (Graphics2D) g2;
-            drawBoardOutline(g, square);
+            drawBoardOutline(g);
             if (drawCard) {
-                drawCard(g, square);
+                drawCard(g);
             }
             g.setColor(Color.BLACK);
-            g.drawRect(57 * unitSquare, square * 18, 12 * unitSquare, 16 * unitSquare);
-            g.drawRect(57 * unitSquare, square * 18, 12 * unitSquare, 4 * unitSquare);
+            g.drawRect(57 * unitSquare, unitSquare * 18, 12 * unitSquare, 16 * unitSquare);
+            g.drawRect(57 * unitSquare, unitSquare * 18, 12 * unitSquare, 4 * unitSquare);
             setBackground(new Color(143, 188, 114));
             drawPieces();
             repaint();
@@ -285,7 +263,6 @@ public class GameDisplay extends JFrame {
         	} 
         }
         
-
         public void drawCard(int loc) {
             if (loc >= 0) {
                 loca = loc;
@@ -293,91 +270,74 @@ public class GameDisplay extends JFrame {
             }
         }
         
-        public void drawCard(Graphics2D g, int square) {
-            if (m.getBoard().getSquare(loca).toString().equals("Property")) {
+        public void drawCard(Graphics2D g) {
+            if (m.getBoard().getSquare(loca).toString().equals("Property")) { 
+            	int[] nums = {(int)(unitSquare / 0.57),(int)(unitSquare / 0.61),(int)(unitSquare / 0.75), (int )(unitSquare / 0.72), (int)(unitSquare / 0.75), (int)(unitSquare / 0.78), (int) (unitSquare / 0.82), (int) (unitSquare / 1.6), (int) (unitSquare / 1.54)};
                 g.setColor(Color.BLACK);
-                g.drawRect(57 * unitSquare, square * 18, 12 * unitSquare, 16 * unitSquare);
+                g.drawRect(57 * unitSquare, unitSquare * 18, 12 * unitSquare, 16 * unitSquare);
                 g.setColor(m.getBoard().getSquare(loca).getColor());
-                g.fillRect(57 * unitSquare, square * 18, 12 * unitSquare, 4 * unitSquare);
-                g.setFont(new Font("Serif", Font.BOLD, 26));
+                g.fillRect(57 * unitSquare, unitSquare * 18, 12 * unitSquare, 4 * unitSquare);
+                g.setFont(new Font("Serif", Font.BOLD, 24));
                 g.setColor(Color.BLACK);
                 String name = m.getBoard().getSquare(loca).getDeed();
                 int left = name.length() / 2;
-                double tem = square / 1.65;
-                int adjuster = (int) tem;
-                g.drawString(name, 63 * unitSquare - left * adjuster, 20 * square);
+                int adjuster = nums[8];
+                g.drawString(name, 63 * unitSquare - left * adjuster, 20 * unitSquare);
                 name = "Rent $" + m.getBoard().getProperty(loca).getRent();
                 left = name.length() / 2;
-                tem = square / 1.6;
-                adjuster = (int) tem;
-                g.drawString(name, 63 * unitSquare - left * adjuster, 23 * square);
+                adjuster = nums[7];
+                g.drawString(name, 63 * unitSquare - left * adjuster, 23 * unitSquare);
                 g.setFont(new Font("Serif", Font.PLAIN, 22));
-                tem = square / 0.95;
-                if (loca < 10) {
-                    tem = square / 0.75;
-                }
-                adjuster = (int) tem;
-                g.drawString("With 1 House: $" + m.getBoard().getProperty(loca).getRent(1), 63 * unitSquare - left * adjuster, 25 * square);
-                tem = square / 0.9;
-                if (loca < 10) {
-                    tem = square / 0.7;
-                }
-                adjuster = (int) tem;
-                g.drawString("With 2 Houses: $" + m.getBoard().getProperty(loca).getRent(2), 63 * unitSquare - left * adjuster, 26 * square);
-                g.drawString("With 3 Houses: $" + m.getBoard().getProperty(loca).getRent(3), 63 * unitSquare - left * adjuster, 27 * square);
-                g.drawString("With 4 Houses: $" + m.getBoard().getProperty(loca).getRent(3), 63 * unitSquare - left * adjuster, 28 * square);
-                tem = square / 0.95;
-                if (loca < 10) {
-                    tem = square / 0.75;
-                }
-                adjuster = (int) tem;
-                g.drawString("With HOTEL: $" + m.getBoard().getProperty(loca).getRent(5), 63 * unitSquare - left * adjuster, 29 * square);
+                adjuster = nums[6];
+                if (loca < 10) adjuster = nums[2];
+                g.drawString("With 1 House: $" + m.getBoard().getProperty(loca).getRent(1), 63 * unitSquare - left * adjuster, 25 * unitSquare);
+                adjuster = nums[5];
+                if (loca < 10) adjuster = nums[1];
+                g.drawString("With 2 Houses: $" + m.getBoard().getProperty(loca).getRent(2), 63 * unitSquare - left * adjuster, 26 * unitSquare);
+                g.drawString("With 3 Houses: $" + m.getBoard().getProperty(loca).getRent(3), 63 * unitSquare - left * adjuster, 27 * unitSquare);
+                g.drawString("With 4 Houses: $" + m.getBoard().getProperty(loca).getRent(3), 63 * unitSquare - left * adjuster, 28 * unitSquare);
+                adjuster = nums[6];
+                if (loca < 10) adjuster = nums[2];
+                g.drawString("With HOTEL: $" + m.getBoard().getProperty(loca).getRent(5), 63 * unitSquare - left * adjuster, 29 * unitSquare);
                 g.setFont(new Font("Serif", Font.BOLD, 22));
-                tem = square / 0.85;
-                if (loca < 10) {
-                    tem = square / 0.7;
-                }
-                adjuster = (int) tem;
-                g.drawString("Mortage Value: $" + m.getBoard().getProperty(loca).getMortgage(), 63 * unitSquare - left * adjuster, 31 * square);
+                adjuster = nums[4];
+                if (loca < 10) adjuster = nums[1];  
+                g.drawString("Mortage Value: $" + m.getBoard().getProperty(loca).getMortgage(), 63 * unitSquare - left * adjuster, 31 * unitSquare);
                 g.setFont(new Font("Serif", Font.PLAIN, 22));
-                tem = square / 0.78;
-                if (loca < 10) {
-                    tem = square / 0.65;
-                }
-                adjuster = (int) tem;
-                g.drawString("House Cost: $" + m.getBoard().getProperty(loca).getHouseCost() + " Each", 63 * unitSquare - left * adjuster, 32 * square);
-                g.drawString("Hotel Cost: $" + m.getBoard().getProperty(loca).getHouseCost() + " Each", 63 * unitSquare - left * adjuster, 33 * square);
-
+                adjuster = nums[3];
+                if (loca < 10) adjuster= nums[0];
+                g.drawString("House Cost: $" + m.getBoard().getProperty(loca).getHouseCost() + " Each", 63 * unitSquare - left * adjuster, 32 * unitSquare);
+                g.drawString("Hotel Cost: $" + m.getBoard().getProperty(loca).getHouseCost() + " Each", 63 * unitSquare - left * adjuster, 33 * unitSquare);
             }
         }
 
-        private void drawBoardOutline(Graphics2D g, int square) {
+        private void drawBoardOutline(Graphics2D g) {
             //Squares on Corners
             g.setColor(green);
-            g.fillRect(0, 0, square * 7, square * 7);
-            g.fillRect(43 * square, 0, square * 7, square * 7);
-            g.fillRect(0, 43 * square, square * 7, square * 7);
-            g.fillRect(43 * square, 43 * square, square * 7, square * 7);
+            g.fillRect(0, 0, unitSquare * 7, unitSquare * 7);
+            g.fillRect(43 * unitSquare, 0, unitSquare * 7, unitSquare * 7);
+            g.fillRect(0, 43 * unitSquare, unitSquare * 7, unitSquare * 7);
+            g.fillRect(43 * unitSquare, 43 * unitSquare, unitSquare * 7, unitSquare * 7);
             g.setColor(Color.BLACK);
-            g.drawRect(0, 0, square * 7, square * 7);
-            g.drawRect(43 * square, 0, square * 7, square * 7);
-            g.drawRect(0, 43 * square, square * 7, square * 7);
-            g.drawRect(43 * square, 43 * square, square * 7, square * 7);
+            g.drawRect(0, 0, unitSquare * 7, unitSquare * 7);
+            g.drawRect(43 * unitSquare, 0, unitSquare * 7, unitSquare * 7);
+            g.drawRect(0, 43 * unitSquare, unitSquare * 7, unitSquare * 7);
+            g.drawRect(43 * unitSquare, 43 * unitSquare, unitSquare * 7, unitSquare * 7);
             int ii = 1;
-            startPoint.add(new Point(0, 43*square));
+            startPoint.add(new Point(0, 43*unitSquare));
             //BottomLeft to TopLeft
             for (int i = 8; i >= 0; i--) {
                 g.setColor(green);
-                g.fillRect(0, square * 7 + i * square * 4, square * 7, square * 4);
+                g.fillRect(0, unitSquare * 7 + i * unitSquare * 4, unitSquare * 7, unitSquare * 4);
                 g.setColor(Color.BLACK);
-                g.drawRect(0, square * 7 + i * square * 4, square * 7, square * 4);
+                g.drawRect(0, unitSquare * 7 + i * unitSquare * 4, unitSquare * 7, unitSquare * 4);
                 if (m.getBoard().getSquare(ii).toString().equals("Property")) {
                     g.setColor(m.getBoard().getSquare(ii).getColor());
-                    g.fillRect(5 * square, square * 7 + i * square * 4, square * 2, square * 4);
+                    g.fillRect(5 * unitSquare, unitSquare * 7 + i * unitSquare * 4, unitSquare * 2, unitSquare * 4);
                     g.setColor(Color.BLACK);
-                    g.drawRect(5 * square, square * 7 + i * square * 4, square * 2, square * 4);
+                    g.drawRect(5 * unitSquare, unitSquare * 7 + i * unitSquare * 4, unitSquare * 2, unitSquare * 4);
                 }
-                startPoint.add(new Point(0, square * 7 + i * square * 4));
+                startPoint.add(new Point(0, unitSquare * 7 + i * unitSquare * 4));
                 ii++;
             }
             startPoint.add(new Point(0,0));
@@ -385,53 +345,54 @@ public class GameDisplay extends JFrame {
             //TopLeft to TopRight
             for (int i = 0; i < 9; i++) {
                 g.setColor(green);
-                g.fillRect(square * 7 + i * square * 4, 0, square * 4, square * 7);
+                g.fillRect(unitSquare * 7 + i * unitSquare * 4, 0, unitSquare * 4, unitSquare * 7);
                 g.setColor(Color.BLACK);
-                g.drawRect(square * 7 + i * square * 4, 0, square * 4, square * 7);
+                g.drawRect(unitSquare * 7 + i * unitSquare * 4, 0, unitSquare * 4, unitSquare * 7);
                 if (m.getBoard().getSquare(ii).toString().equals("Property")) {
                     g.setColor(m.getBoard().getSquare(ii).getColor());
-                    g.fillRect(square * 7 + i * square * 4, 5 * square, square * 4, square * 2);
+                    g.fillRect(unitSquare * 7 + i * unitSquare * 4, 5 * unitSquare, unitSquare * 4, unitSquare * 2);
                     g.setColor(Color.BLACK);
-                    g.drawRect(square * 7 + i * square * 4, 5 * square, square * 4, square * 2);
+                    g.drawRect(unitSquare * 7 + i * unitSquare * 4, 5 * unitSquare, unitSquare * 4, unitSquare * 2);
                 }
-                startPoint.add(new Point(square * 7 + i * square * 4 , 0));
+                startPoint.add(new Point(unitSquare * 7 + i * unitSquare * 4 , 0));
                 ii++;
             }
             ii++;
-            startPoint.add(new Point(43*square, 0));
+            startPoint.add(new Point(43*unitSquare, 0));
             //TopRight to BottomRight
             for (int i = 0; i < 9; i++) {
                 g.setColor(green);
-                g.fillRect(square * 43, square * 7 + i * square * 4, square * 7, square * 4);
+                g.fillRect(unitSquare * 43, unitSquare * 7 + i * unitSquare * 4, unitSquare * 7, unitSquare * 4);
                 g.setColor(Color.BLACK);
-                g.drawRect(square * 43, square * 7 + i * square * 4, square * 7, square * 4);
+                g.drawRect(unitSquare * 43, unitSquare * 7 + i * unitSquare * 4, unitSquare * 7, unitSquare * 4);
                 if (m.getBoard().getSquare(ii).toString().equals("Property")) {
                     g.setColor(m.getBoard().getSquare(ii).getColor());
-                    g.fillRect((int) 43 * square, square * 7 + i * square * 4, square * 2, square * 4);
+                    g.fillRect((int) 43 * unitSquare, unitSquare * 7 + i * unitSquare * 4, unitSquare * 2, unitSquare * 4);
                     g.setColor(Color.BLACK);
-                    g.drawRect((int) 43 * square, square * 7 + i * square * 4, square * 2, square * 4);
+                    g.drawRect((int) 43 * unitSquare, unitSquare * 7 + i * unitSquare * 4, unitSquare * 2, unitSquare * 4);
                 }
-                startPoint.add(new Point(43 * square, square * 7 + i * square * 4));
+                startPoint.add(new Point(43 * unitSquare, unitSquare * 7 + i * unitSquare * 4));
                 ii++;
             }
             ii++;
-            startPoint.add(new Point(43 * square, 43 * square));
+            startPoint.add(new Point(43 * unitSquare, 43 * unitSquare));
             //BottomRight to BottomLeft
             for (int i = 8; i >= 0; i--) {
                 g.setColor(green);
-                g.fillRect(square * 7 + i * square * 4, square * 43, square * 4, square * 7);
+                g.fillRect(unitSquare * 7 + i * unitSquare * 4, unitSquare * 43, unitSquare * 4, unitSquare * 7);
                 g.setColor(Color.BLACK);
-                g.drawRect(square * 7 + i * square * 4, square * 43, square * 4, square * 7);
+                g.drawRect(unitSquare * 7 + i * unitSquare * 4, unitSquare * 43, unitSquare * 4, unitSquare * 7);
                 if (m.getBoard().getSquare(ii).toString().equals("Property")) {
                     g.setColor(m.getBoard().getSquare(ii).getColor());
-                    g.fillRect(square * 7 + i * square * 4, 43 * square, square * 4, square * 2);
+                    g.fillRect(unitSquare * 7 + i * unitSquare * 4, 43 * unitSquare, unitSquare * 4, unitSquare * 2);
                     g.setColor(Color.BLACK);
-                    g.drawRect(square * 7 + i * square * 4, 43 * square, square * 4, square * 2);
+                    g.drawRect(unitSquare * 7 + i * unitSquare * 4, 43 * unitSquare, unitSquare * 4, unitSquare * 2);
                 }
-                startPoint.add(new Point(square * 7 + i * square * 4, 43 * square));
+                startPoint.add(new Point(unitSquare * 7 + i * unitSquare * 4, 43 * unitSquare));
                 ii++;
             }
         }
+        
     }
 
 }

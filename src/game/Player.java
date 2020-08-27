@@ -30,7 +30,7 @@ public class Player {
         ownedProperties = new ArrayList<BuyableSquare>();
         rollOrder = r;
         object = o;
-        bankAccount = 0;
+        bankAccount = 1500;
         inJail = false;
         railroadsOwned = houses = hotels = 0;
         rawImage = i;
@@ -45,14 +45,20 @@ public class Player {
     public int totalHotelsOwned() {
     	int ans = 0;
     	for(int i = 0; i < getPropertyCount(); i++) {
-    		
+    		if(ownedProperties.toString().equals("Property")) {
+    			Property p = (Property) ownedProperties.get(i);
+    			ans += p.getHotel() ? 1 : 0;
+    		}
     	}
     	return ans;
     }
     public int totalHousesOwned() {
     	int ans = 0;
     	for(int i = 0; i < getPropertyCount(); i++) {
-    		//ans += ownedProperties.get(i).
+    		if(ownedProperties.toString().equals("Property")) {
+    			Property p = (Property) ownedProperties.get(i);
+    			ans += p.getHouses();
+    		}
     	}
     	return ans;
     }

@@ -28,8 +28,14 @@ public class Property extends BuyableSquare{
         color = co;
         propertyGroupColor = new Color(r,g,b);
     }
+    public boolean getHotel() {
+    	return hotel;
+    }
     public void addHouse() {
     	houses++;
+    }
+    public int getHouses() {
+    	return houses;
     }
     public void addHotel() {
     	hotel = true;
