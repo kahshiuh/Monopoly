@@ -28,6 +28,7 @@ public class PlayerProfileDisplay extends JFrame{
 	private int unitSquare = GameDisplay.unitSquare;
 	private Player p;
 	private JLabel playerName, currentBalance, currentSquare, housesLBL, hotelsLBL, hotelCount, houseCount, playerIcon;
+	private JLabel housesOnSelected, hotelsOnSelected;
 	private JComboBox <String> ownedSquares;
 	private JButton check;
 	private String[] squares;
@@ -55,21 +56,27 @@ public class PlayerProfileDisplay extends JFrame{
 	}
 	private void initComponents() {
 		check = new JButton();
-		check.setBounds(unitSquare*31,unitSquare*16, unitSquare*6, unitSquare*2);
+		check.setBounds(unitSquare*31,unitSquare*12, unitSquare*7, unitSquare*2);
+		check.setBackground(lGreen);
+		check.setText("Check Property");
 		playerName = new JLabel();
 		labelInitializer(playerName, player, 1,1,18,4, 52);
+		housesOnSelected = new JLabel();
+		labelInitializer(housesOnSelected, "Houses Present: ", 31, 15, 9, 3, 16);
+		hotelsOnSelected = new JLabel();
+		labelInitializer(hotelsOnSelected, "Hotels Present: ", 31, 18, 9, 3, 16);
 		currentBalance = new JLabel();
-		labelInitializer(currentBalance, "Balance: "+ p.getBalance() + "$", 21,6,9,4, 16);
+		labelInitializer(currentBalance, "Balance: "+ p.getBalance() + "$", 21,5,9,3, 16);
 		currentSquare = new JLabel();
-		labelInitializer(currentSquare, "Square: Property", 31,6,9,4, 16); //Need to figure out how to get square name
-		ownedSquares = new JComboBox();
+		labelInitializer(currentSquare, "Square: Property", 31,5,9,3, 16); //Need to figure out how to get square name
+		ownedSquares = new JComboBox(p.getProperties());
 		ownedSquares.setFont(new Font("Consolas", Font.BOLD, 16));
 		ownedSquares.setBackground(Color.WHITE);
-		ownedSquares.setBounds(unitSquare*21, unitSquare*16, unitSquare*9, unitSquare*2);
+		ownedSquares.setBounds(unitSquare*21, unitSquare*12, unitSquare*8, unitSquare*2);
 		hotelCount = new JLabel();
-		labelInitializer(hotelCount, "Hotels Owned: "+ p.getHotels(), 21,11,9, 4, 16);
+		labelInitializer(hotelCount, "Hotels Owned: "+ p.getHotels(), 21,8,9, 3, 16);
 		houseCount = new JLabel();
-		labelInitializer(houseCount, "Houses Owned: "+ p.getHouses(), 31,11,9, 4, 16);
+		labelInitializer(houseCount, "Houses Owned: "+ p.getHouses(), 31,8,9, 3, 16);
 		Image image = p.getRawImage();
 		Image image1 = image.getScaledInstance(GameDisplay.unitSquare*15, GameDisplay.unitSquare*15, java.awt.Image.SCALE_SMOOTH);
 		playerIcon = new JLabel(new ImageIcon(image1));
@@ -84,10 +91,18 @@ public class PlayerProfileDisplay extends JFrame{
 		add(currentSquare);
 		add(playerIcon);
 		add(check);
+		add(housesOnSelected);
+		add(hotelsOnSelected);
 	}
 
-	private void addActionListeners() {
-		
+	private void addALs() {
+		check.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent arg0) {
+				
+			}
+			
+		});
 	}
 	
 }

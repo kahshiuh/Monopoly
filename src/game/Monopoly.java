@@ -94,7 +94,9 @@ public class Monopoly {
         }
         checkedRent = false;
     }
-    public void checkRent(Player p, int curLocation) {
+    public void checkRent() {
+    	Player p = getPlayer();
+    	int curLocation = p.getSquare();
     	if(checkedRent) return;
     	switch(board.getSquare(curLocation).toString()) {
     		case "Property":
@@ -128,7 +130,7 @@ public class Monopoly {
     }
     public boolean buySquare(Player buyer, Square bb) {
     	BuyableSquare b = (BuyableSquare) bb;
-    	if(buyer.getBalance() > b.getPrice() && !b.getOwned() && b.getBuyable()) {
+    	if(buyer.getBalance() > b.getPrice() && b.getBuyable()) {
     		b.setBuyable(false);
     		b.setOwner(buyer.getRollOrder());
     		buyer.buy(b, b.getPrice());
@@ -140,8 +142,6 @@ public class Monopoly {
     public boolean sellSquare(Player seller, BuyableSquare b, Player buyer, int price) {
     	if(buyer.getBalance() > price) {
     		seller.sell(b, price);
-    		b.setBuyable(false);
-    		//need to set  owner
         	buyer.buy(b, price);
         	return true;
     	}

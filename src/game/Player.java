@@ -36,12 +36,13 @@ public class Player {
         rawImage = i;
         this.piece = piece;
     }
-    /*
-     * 
-     * Need to check for if the square is a property
-     * 
-     * 
-     */
+    public String[] getProperties() {
+    	String[] ans = new String[ownedProperties.size()];
+    	for(int i = 0; i < ownedProperties.size(); i++) {
+    		ans[i] = ownedProperties.get(i).getDeed();
+    	}
+    	return ans;
+    }
     public int totalHotelsOwned() {
     	int ans = 0;
     	for(int i = 0; i < getPropertyCount(); i++) {

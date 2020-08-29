@@ -27,7 +27,7 @@ public class GameDisplay extends JFrame {
     private Canvas canvas;
     private ImageIcon [] dieSides= new ImageIcon[6];
     private ImageIcon [] gamePieces = new ImageIcon[8];
-    private JLabel dL1, dL2;
+    private JLabel dL1, dL2, logo;
     private ArrayList<JLabel> playerPieces = new ArrayList();
     private boolean dieRolled = false;
     private Button diceRollBUT, nextTurnBUT, buyPropertyBUT, sellPropertyBUT, viewProfileBUT;
@@ -38,6 +38,8 @@ public class GameDisplay extends JFrame {
     	super("Monopoly");
     	setResizable(false);
     	getContentPane().setBackground(new Color(143, 188, 114));
+    	logo = new JLabel();
+    	logo.setBounds(unitSquare*13, unitSquare*19, unitSquare*24, unitSquare*8);
     	loadImages();
         canvas = new Canvas();
         canvas.setPreferredSize(new Dimension(CANV_WIDTH, CANV_HEIGHT));
@@ -83,6 +85,7 @@ public class GameDisplay extends JFrame {
         canvas.add(buyPropertyBUT);
         canvas.add(viewProfileBUT);
         canvas.add(playerViewList);
+        canvas.add(logo);
     }
     private void buttonInitializer() {
     	diceRollBUT = new Button("Roll");
@@ -115,19 +118,21 @@ public class GameDisplay extends JFrame {
     private void actionListenerInitializer() {
     	buyPropertyBUT.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				m.buySquare(m.getPlayer(), m.getSquare(m.getPlayer().getSquare()));				
+				m.buySquare(m.getPlayer(), m.getSquare(m.getPlayer().getSquare()));	
+				buyPropertyBUT.setEnabled(false);
 			}        	
         });
         sellPropertyBUT.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {			
+				new SellPropertyDisplay(m.getPlayer());
 			}
-        	
         });
     	nextTurnBUT.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				m.nextTurn();
 				diceRollBUT.setEnabled(true);
 				nextTurnBUT.setEnabled(false);
+				buyPropertyBUT.setEnabled(true);
 			}
         	
         });
@@ -141,7 +146,9 @@ public class GameDisplay extends JFrame {
 					m.calculateSquare(d1+ d2);
 					diceRollBUT.setEnabled(false);
 					nextTurnBUT.setEnabled(true);
-
+					if(!m.getSquare(m.getPlayer().getSquare()).getBuyable()) {
+						buyPropertyBUT.setEnabled(false);
+					}
 			}
         	
         });
@@ -168,6 +175,14 @@ public class GameDisplay extends JFrame {
     			
     		}
     	}
+    	try {
+			Image image = ImageIO.read(new File("images/misc/logo.png"));
+			Image image1 = image.getScaledInstance(unitSquare*24, unitSquare*8, java.awt.Image.SCALE_SMOOTH);
+            ImageIcon t = new ImageIcon(image1);
+            logo.setIcon(t);
+    	}catch(Exception e) {
+			
+		}
     }
 
     private int squareSearcher(int mouseX, int mouseY) {

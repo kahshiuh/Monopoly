@@ -4,14 +4,15 @@ Started: 8/19/2020.
 Finished: N/A.  
 
 ## Current Status  
--Pieces Can Be Loaded + Moved    
--Completed StartUp Screen     
--Basic GUI Is Done    
--Need To Do A Lot Of Tinkering + Testing  
+-Buy Functionality is Working        
+-Player GUI Is 80% Done      
+-Need To Do A Lot Of Tinkering + Testing    
 
-## To Be Added Next  
--Player GUI    
--Buy/Sell/Auction Functionality     
+## To Be Added Next    
+-Sell/Auction Functionality  
+-Paying Utilities + Railroads  
+-Output TextField For Game Feedback  
+-Selling Houses/Hotels back to bank  
 
 ## Added Features  
 -Hover For Property Info   
