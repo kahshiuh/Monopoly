@@ -34,6 +34,12 @@ public class Property extends BuyableSquare{
     public void addHouse() {
     	houses++;
     }
+    public void removeHouse() {
+    	houses = houses > 0 ? houses-1: 0;
+    }
+    public void removeHotel() {
+    	hotel = false;
+    }
     public int getHouses() {
     	return houses;
     }

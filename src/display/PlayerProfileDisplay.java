@@ -69,7 +69,7 @@ public class PlayerProfileDisplay extends JFrame{
 		labelInitializer(currentBalance, "Balance: "+ p.getBalance() + "$", 21,5,9,3, 16);
 		currentSquare = new JLabel();
 		labelInitializer(currentSquare, "Square: Property", 31,5,9,3, 16); //Need to figure out how to get square name
-		ownedSquares = new JComboBox(p.getProperties());
+		ownedSquares = new JComboBox(p.getPropertyNames());
 		ownedSquares.setFont(new Font("Consolas", Font.BOLD, 16));
 		ownedSquares.setBackground(Color.WHITE);
 		ownedSquares.setBounds(unitSquare*21, unitSquare*12, unitSquare*8, unitSquare*2);

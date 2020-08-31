@@ -11,6 +11,7 @@ import board.BuyableSquare;
 import board.Square;
 import squareTypes.Property;
 import squareTypes.Railroad;
+import squareTypes.Utility;
 
 public class Monopoly {
 
@@ -140,11 +141,29 @@ public class Monopoly {
     	return false;
     }
     public boolean sellSquare(Player seller, BuyableSquare b, Player buyer, int price) {
-    	if(buyer.getBalance() > price) {
-    		seller.sell(b, price);
-        	buyer.buy(b, price);
-        	return true;
+    	switch(b.toString()) {
+    		case "Property":
+    			if(buyer.getBalance() > price) {
+    	    		seller.sell((Property) b, price);
+    	        	buyer.buy(b, price);
+    	        	return true;
+    	    	}
+    		case "Utility":
+    			if(buyer.getBalance() > price) {
+    	    		seller.sell((Utility) b, price);
+    	        	buyer.buy(b, price);
+    	        	return true;
+    	    	}
+    			break;
+    		case "Railroad":
+    			b = (Railroad) b;
+    			if(buyer.getBalance() > price) {
+    	    		seller.sell((Railroad) b, price);
+    	        	buyer.buy(b, price);
+    	        	return true;
+    	    	}
     	}
+    	
     	return false;
     }
 

@@ -13,7 +13,10 @@ import squareTypes.Railroad;
 import squareTypes.Utility;
 
 public class Player {
-    private ArrayList <BuyableSquare> ownedProperties;
+	private ArrayList <BuyableSquare> owned;
+    private ArrayList <Property> properties;
+    private ArrayList <Railroad> railroads;
+    private ArrayList <Utility> utilities;
     private int bankAccount;
     private int houses;
     private int hotels;
@@ -27,7 +30,9 @@ public class Player {
     private Image rawImage;
     
     public Player(int r, String o, ImageIcon piece, Image i){
-        ownedProperties = new ArrayList<BuyableSquare>();
+        properties = new ArrayList();
+        railroads = new ArrayList();
+        utilities = new ArrayList();
         rollOrder = r;
         object = o;
         bankAccount = 1500;
@@ -36,38 +41,41 @@ public class Player {
         rawImage = i;
         this.piece = piece;
     }
-    public String[] getProperties() {
-    	String[] ans = new String[ownedProperties.size()];
-    	for(int i = 0; i < ownedProperties.size(); i++) {
-    		ans[i] = ownedProperties.get(i).getDeed();
+    public String[] getPropertyNames() {
+    	String[] ans = new String[owned.size()];
+    	for(int i = 0; i < owned.size(); i++) {
+    		ans[i] = owned.get(i).getDeed();
     	}
     	return ans;
     }
     public int totalHotelsOwned() {
     	int ans = 0;
-    	for(int i = 0; i < getPropertyCount(); i++) {
-    		if(ownedProperties.toString().equals("Property")) {
-    			Property p = (Property) ownedProperties.get(i);
-    			ans += p.getHotel() ? 1 : 0;
-    		}
+    	for(int i = 0; i < properties.size(); i++) {
+    			ans += properties.get(i).getHotel() ? 1 : 0;
     	}
     	return ans;
     }
     public int totalHousesOwned() {
     	int ans = 0;
-    	for(int i = 0; i < getPropertyCount(); i++) {
-    		if(ownedProperties.toString().equals("Property")) {
-    			Property p = (Property) ownedProperties.get(i);
-    			ans += p.getHouses();
-    		}
+    	for(int i = 0; i < properties.size(); i++) {
+    		ans += properties.get(i).getHouses();
     	}
     	return ans;
     }
-    public ArrayList<BuyableSquare> getOwnedProperties() {
-    	return ownedProperties;
+    public ArrayList<BuyableSquare> getOwned() {
+    	return owned;
     }
-    public int getPropertyCount() {
-    	return ownedProperties.size();
+    public ArrayList<Property> getProperties(){
+    	return properties;
+    }
+    public ArrayList<Utility> getUtilities(){
+    	return utilities;
+    }
+    public ArrayList<Railroad> getRailroads(){
+    	return railroads;
+    }
+    public int getTotalSquaresOwned() {
+    	return owned.size();
     }
     public Image getRawImage() {
     	return rawImage;
@@ -79,13 +87,34 @@ public class Player {
     	return object;
     }
     public void buy(BuyableSquare b, int price) {
-    	ownedProperties.add(b);
+    	owned.add(b);
     	bankAccount -= price;
     }
-    public void sell(Square b, int price) {
-    	for(Square s : ownedProperties) {
-    		if(s.equals(b)) ownedProperties.remove(s);
-    		bankAccount += price;
+    public void sell(Property b, int price) {
+    	for(Property s : properties) {
+    		if(s.equals(b)) {
+    			owned.remove(s);
+    			properties.remove(s);
+    			bankAccount += price;
+    		}
+    	}
+    }
+    public void sell(Utility b, int price) {
+    	for(Utility s : utilities) {
+    		if(s.equals(b)) {
+    			owned.remove(s);
+    			utilities.remove(s);
+    			bankAccount += price;
+    		}
+    	}
+    }
+    public void sell(Railroad b, int price) {
+    	for(Railroad s : railroads) {
+    		if(s.equals(b)) {
+    			owned.remove(s);
+    			railroads.remove(s);
+    			bankAccount += price;
+    		}
     	}
     }
     /*
@@ -93,7 +122,7 @@ public class Player {
      */
     public boolean checkColor(Color pGroup) {
     	int count = 0;
-    	for(Square s : ownedProperties) {
+    	for(BuyableSquare s : owned) {
     		if(s.toString().equals("Property") && s.getColor().equals(pGroup)) {
     			count++;
     		}
@@ -124,7 +153,7 @@ public class Player {
     public int getSquare(){
         return currentSquare;
     }
-    public int getRailroads(){
+    public int getRailroadsOwned(){
         return railroadsOwned;
     }
     public void changeRailroadCount(int r){
@@ -145,11 +174,6 @@ public class Player {
     public boolean getFreeOutOfJail(){
         return getOutOfJail;
     }
-    public void setImageIcon(ImageIcon p){
-        piece = p;
-    }
-    public ImageIcon getPiece(){
-        return piece;
-    }
+
     
 }
